@@ -1,0 +1,23 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "containerRegistryName": { "value": "myContainerRegistry" },
+      "containerRegistryLocation": { "value": "EastUS" },
+      "servicePlanName": { "value": "myServicePlan" },
+      "servicePlanLocation": { "value": "EastUS" },
+      "webAppName": { "value": "myWebApp" },
+      "webAppLocation": { "value": "EastUS" },
+      "containerRegistryImageName": { "value": "my-app-image" },
+      "containerRegistryImageVersion": { "value": "v1.0.0" },
+      "appSettingsKeyValuePairs": {
+        "value": {
+          "WEBSITES_ENABLE_APP_SERVICE_STORAGE": false,
+          "DOCKER_REGISTRY_SERVER_URL": "https://myContainerRegistry.azurecr.io",
+          "DOCKER_REGISTRY_SERVER_USERNAME": "myUsername",
+          "DOCKER_REGISTRY_SERVER_PASSWORD": "myPassword"
+        }
+      }
+    }
+  }
+  
