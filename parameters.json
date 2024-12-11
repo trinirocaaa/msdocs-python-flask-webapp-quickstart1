@@ -6,10 +6,10 @@
       "value": "eastus"
     },
     "containerRegistryName": {
-      "value": "myContainerRegistry"
+      "value": "kind_merkle"
     },
     "servicePlanName": {
-      "value": "myServicePlan"
+      "value": "troca-asp-dev"
     },
     "webAppName": {
       "value": "myWebApp"

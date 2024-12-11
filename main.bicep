@@ -43,5 +43,6 @@ module webApp './web-app.bicep' = {
     containerRegistryName: containerRegistryName
     containerRegistryImageName: containerRegistryImageName
     containerRegistryImageVersion: containerRegistryImageVersion
+    dockerRegistryServerPassword: 'PLACEHOLDER_PASSWORD'
   }
 }
