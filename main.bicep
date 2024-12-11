@@ -1,9 +1,20 @@
-@description('Deploy Azure resources using Bicep modules')
-param location string = 'eastus'
+@description('Location for resources')
+param location string
 
-var containerRegistryName = 'myContainerRegistry'
-var servicePlanName = 'myServicePlan'
-var webAppName = 'myWebApp'
+@description('Container Registry Name')
+param containerRegistryName string
+
+@description('Container Registry Image Name')
+param containerRegistryImageName string
+
+@description('Container Registry Image Version')
+param containerRegistryImageVersion string
+
+@description('Service Plan Name')
+param servicePlanName string
+
+@description('Web App Name')
+param webAppName string
 
 module containerRegistry './container-registry.bicep' = {
   name: 'DeployContainerRegistry'
@@ -29,7 +40,7 @@ module webApp './web-app.bicep' = {
     location: location
     serverFarmResourceId: servicePlan.outputs.serverFarmResourceId
     containerRegistryName: containerRegistryName
-    containerRegistryImageName: 'myimage'
-    containerRegistryImageVersion: 'latest'
+    containerRegistryImageName: containerRegistryImageName
+    containerRegistryImageVersion: containerRegistryImageVersion
   }
 }
