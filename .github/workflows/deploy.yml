@@ -1,13 +1,13 @@
 name: ie-bank-infra
 
 on:
-  workflow_dispatch: # Allows manual triggering from the GitHub Actions tab
+  workflow_dispatch: 
   pull_request:
     branches:
       - main
   push:
     branches:
-      - '*' # Trigger workflow for any branch
+      - '*'
     paths-ignore:
       - 'scripts/**'
 
@@ -15,6 +15,9 @@ env:
   RESOURCE_GROUP_DEV: BCSAI2024-DEVOPS-STUDENTS-B-DEV
   SUBSCRIPTION_ID: e0b9cada-61bc-4b5a-bd7a-52c606726b3b
   USER_ALIAS: troca
+  CONTAINER_REGISTRY_NAME: triniacr
+  CONTAINER_IMAGE_NAME: flask-app
+  CONTAINER_IMAGE_TAG: latest
 
 jobs:
   build:
@@ -30,14 +33,25 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Step 3: Validate and build Bicep files
+      # Step 3: Build Docker Image
+      - name: Build Docker Image
+        run: |
+          docker build -t ${{ env.CONTAINER_REGISTRY_NAME }}.azurecr.io/${{ env.CONTAINER_IMAGE_NAME }}:${{ env.CONTAINER_IMAGE_TAG }} .
+
+      # Step 4: Push Docker Image to ACR
+      - name: Push Docker Image to ACR
+        run: |
+          az acr login --name ${{ env.CONTAINER_REGISTRY_NAME }}
+          docker push ${{ env.CONTAINER_REGISTRY_NAME }}.azurecr.io/${{ env.CONTAINER_IMAGE_NAME }}:${{ env.CONTAINER_IMAGE_TAG }}
+
+      # Step 5: Validate and Build Bicep Files
       - name: Validate and Build Bicep Files
         run: |
           az bicep build --file ./main.bicep
           echo "Bicep files successfully built."
 
-      # Step 4: Upload Bicep build artifact
-      - name: Upload Bicep build artifact
+      # Step 6: Upload Bicep Build Artifact
+      - name: Upload Bicep Build Artifact
         uses: actions/upload-artifact@v3
         with:
           name: bicep-build
@@ -55,13 +69,13 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Step 2: Download Bicep build artifact
+      # Step 2: Download Bicep Build Artifact
       - name: Download Bicep Build Artifact
         uses: actions/download-artifact@v3
         with:
           name: bicep-build
 
-      # Step 3: Log into Azure
+      # Step 3: Login to Azure
       - name: Login to Azure
         uses: azure/login@v1
         with:

@@ -4,6 +4,24 @@
   "parameters": {
     "location": {
       "value": "eastus"
+    },
+    "containerRegistryName": {
+      "value": "triniacr"  
+    },
+    "servicePlanName": {
+      "value": "myServicePlan"
+    },
+    "webAppName": {
+      "value": "myWebApp"
+    },
+    "containerRegistryImageName": {
+      "value": "myImage"
+    },
+    "containerRegistryImageVersion": {
+      "value": "latest"
+    },
+    "sku": {
+      "value": "Basic"  
     }
   }
 }
