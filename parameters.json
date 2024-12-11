@@ -3,10 +3,10 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "location": {
-      "value": "eastus"
+      "value": "westeurope"
     },
     "containerRegistryName": {
-      "value": "triniacr"
+      "value": "triniacr1"
     },
     "servicePlanName": {
       "value": "myServicePlan"
