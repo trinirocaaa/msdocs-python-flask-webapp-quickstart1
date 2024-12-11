@@ -5,6 +5,11 @@ param serverFarmResourceId string
 param containerRegistryName string
 param containerRegistryImageName string
 param containerRegistryImageVersion string
+param dockerRegistryServerUrl string
+@secure()
+param dockerRegistryServerUsername string
+@secure()
+param dockerRegistryServerPassword string
 
 resource webApp 'Microsoft.Web/sites@2022-03-01' = {
   name: name
@@ -19,6 +24,18 @@ resource webApp 'Microsoft.Web/sites@2022-03-01' = {
         {
           name: 'WEBSITES_ENABLE_APP_SERVICE_STORAGE'
           value: 'false'
+        }
+        {
+          name: 'DOCKER_REGISTRY_SERVER_URL'
+          value: dockerRegistryServerUrl
+        }
+        {
+          name: 'DOCKER_REGISTRY_SERVER_USERNAME'
+          value: dockerRegistryServerUsername
+        }
+        {
+          name: 'DOCKER_REGISTRY_SERVER_PASSWORD'
+          value: dockerRegistryServerPassword
         }
       ]
     }

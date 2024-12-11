@@ -19,6 +19,15 @@
     },
     "containerRegistryImageVersion": {
       "value": "latest"
-    }
-  }
+    },
+    "dockerRegistryServerUrl": {
+      "value": "https://acrtrini1.azurecr.io"
+    },
+    "dockerRegistryServerUsername": {
+      "value": "postgres"
+    },
+    "dockerRegistryServerPassword": {
+      "value": "Pa$$w0rd1900"
+}
+}
 }

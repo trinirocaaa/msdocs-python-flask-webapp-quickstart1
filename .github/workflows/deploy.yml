@@ -59,7 +59,21 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      # Step 4: Deploy Bicep Files to DEV
+      # Step 4: Docker Login to ACR
+      - name: Docker Login to ACR
+        run: |
+          docker login \
+            --username $(jq -r '.parameters.dockerRegistryServerUsername.value' parameters.json) \
+            --password $(jq -r '.parameters.dockerRegistryServerPassword.value' parameters.json) \
+            $(jq -r '.parameters.dockerRegistryServerUrl.value' parameters.json)
+
+      # Step 5: Build and Push Docker Image
+      - name: Build and Push Docker Image
+        run: |
+          docker build . -t $(jq -r '.parameters.dockerRegistryServerUrl.value' parameters.json)/$(jq -r '.parameters.containerRegistryImageName.value' parameters.json):$(jq -r '.parameters.containerRegistryImageVersion.value' parameters.json)
+          docker push $(jq -r '.parameters.dockerRegistryServerUrl.value' parameters.json)/$(jq -r '.parameters.containerRegistryImageName.value' parameters.json):$(jq -r '.parameters.containerRegistryImageVersion.value' parameters.json)
+
+      # Step 6: Deploy Bicep Files to DEV
       - name: Deploy to DEV Environment
         run: |
           az deployment group create \

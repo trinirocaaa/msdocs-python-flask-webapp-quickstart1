@@ -16,6 +16,17 @@ param servicePlanName string
 @description('Web App Name')
 param webAppName string
 
+@description('Docker Registry Server URL')
+param dockerRegistryServerUrl string
+
+@description('Docker Registry Server Username')
+@secure()
+param dockerRegistryServerUsername string
+
+@description('Docker Registry Server Password')
+@secure()
+param dockerRegistryServerPassword string
+
 module containerRegistry './container-registry.bicep' = {
   name: 'DeployContainerRegistry'
   params: {
@@ -42,5 +53,8 @@ module webApp './web-app.bicep' = {
     containerRegistryName: containerRegistryName
     containerRegistryImageName: containerRegistryImageName
     containerRegistryImageVersion: containerRegistryImageVersion
+    dockerRegistryServerUrl: dockerRegistryServerUrl
+    dockerRegistryServerUsername: dockerRegistryServerUsername
+    dockerRegistryServerPassword: dockerRegistryServerPassword
   }
 }
