@@ -21,7 +21,7 @@
       "value": "latest"
     },
     "dockerRegistryServerUrl": {
-      "value": "http://localhost:5002/"
+      "value": "https://${containerRegistryName}.azurecr.io"
     },
     "dockerRegistryServerUsername": {
       "value": "triniroca"

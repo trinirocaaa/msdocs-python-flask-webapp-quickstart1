@@ -5,6 +5,8 @@ param serverFarmResourceId string
 param containerRegistryName string
 param containerRegistryImageName string
 param containerRegistryImageVersion string
+@secure()
+param dockerRegistryServerPassword string
 
 resource webApp 'Microsoft.Web/sites@2022-03-01' = {
   name: name
@@ -26,11 +28,11 @@ resource webApp 'Microsoft.Web/sites@2022-03-01' = {
         }
         {
           name: 'DOCKER_REGISTRY_SERVER_USERNAME'
-          value: '${containerRegistryName}'
+          value: containerRegistryName
         }
         {
           name: 'DOCKER_REGISTRY_SERVER_PASSWORD'
-          value: 'PLACEHOLDER_PASSWORD'
+          value: dockerRegistryServerPassword
         }
       ]
     }
