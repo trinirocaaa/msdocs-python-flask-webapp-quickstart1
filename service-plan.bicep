@@ -12,9 +12,8 @@ resource servicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
     family: 'B'
     capacity: 1
   }
-  kind: 'Linux'
   properties: {
-    reserved: true
+    reserved: true // Linux-specific
   }
 }
 

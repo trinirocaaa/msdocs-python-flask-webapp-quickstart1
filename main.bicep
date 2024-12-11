@@ -1,20 +1,9 @@
 @description('Deploy Azure resources using Bicep modules')
 param location string = 'eastus'
 
-@description('Name of the Azure Container Registry')
-param containerRegistryName string
-
-@description('Name of the Azure Service Plan')
-param servicePlanName string
-
-@description('Name of the Azure Web App')
-param webAppName string
-
-@description('Name of the container image in the registry')
-param containerRegistryImageName string
-
-@description('Version of the container image')
-param containerRegistryImageVersion string
+var containerRegistryName = 'myContainerRegistry'
+var servicePlanName = 'myServicePlan'
+var webAppName = 'myWebApp'
 
 module containerRegistry './container-registry.bicep' = {
   name: 'DeployContainerRegistry'
@@ -33,16 +22,14 @@ module servicePlan './service-plan.bicep' = {
   }
 }
 
-
 module webApp './web-app.bicep' = {
   name: 'DeployWebApp'
   params: {
     name: webAppName
     location: location
-    serverFarmResourceId: resourceId('Microsoft.Web/serverfarms', servicePlanName)
+    serverFarmResourceId: servicePlan.outputs.serverFarmResourceId
     containerRegistryName: containerRegistryName
-    containerRegistryImageName: containerRegistryImageName
-    containerRegistryImageVersion: containerRegistryImageVersion
-    dockerRegistryServerPassword: 'PLACEHOLDER_PASSWORD'
+    containerRegistryImageName: 'myimage'
+    containerRegistryImageVersion: 'latest'
   }
 }

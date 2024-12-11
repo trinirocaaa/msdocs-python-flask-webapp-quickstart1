@@ -4,30 +4,6 @@
   "parameters": {
     "location": {
       "value": "eastus"
-    },
-    "containerRegistryName": {
-      "value": "kind_merkle"
-    },
-    "servicePlanName": {
-      "value": "troca-asp-dev"
-    },
-    "webAppName": {
-      "value": "myWebApp"
-    },
-    "containerRegistryImageName": {
-      "value": "myImage"
-    },
-    "containerRegistryImageVersion": {
-      "value": "latest"
-    },
-    "dockerRegistryServerUrl": {
-      "value": "https://${containerRegistryName}.azurecr.io"
-    },
-    "dockerRegistryServerUsername": {
-      "value": "triniroca"
-    },
-    "dockerRegistryServerPassword": {
-      "value": "Doloresbacque30"
     }
   }
 }
