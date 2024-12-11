@@ -1,50 +1,35 @@
-param containerRegistryName string
-param containerRegistryLocation string
-param servicePlanName string
-param servicePlanLocation string
-param webAppName string
-param webAppLocation string
-param containerRegistryImageName string
-param containerRegistryImageVersion string
+@description('Deploy Azure resources using Bicep modules')
+param location string = 'eastus'
 
-module containerRegistry 'modules/container-registry.bicep' = {
-  name: 'containerRegistry'
+var containerRegistryName = 'myContainerRegistry'
+var servicePlanName = 'myServicePlan'
+var webAppName = 'myWebApp'
+
+module containerRegistry './container-registry.bicep' = {
+  name: 'DeployContainerRegistry'
   params: {
     name: containerRegistryName
-    location: containerRegistryLocation
+    location: location
     acrAdminUserEnabled: true
   }
 }
 
-module servicePlan 'modules/service-plan.bicep' = {
-  name: 'servicePlan'
+module servicePlan './service-plan.bicep' = {
+  name: 'DeployServicePlan'
   params: {
     name: servicePlanName
-    location: servicePlanLocation
-    sku: {
-      capacity: 1
-      family: 'B'
-      name: 'B1'
-      size: 'B1'
-      tier: 'Basic'
-      reserved: true
-    }
+    location: location
   }
 }
 
-module webApp 'modules/web-app.bicep' = {
-  name: 'webApp'
+module webApp './web-app.bicep' = {
+  name: 'DeployWebApp'
   params: {
     name: webAppName
-    location: webAppLocation
-    serverFarmResourceId: servicePlan.outputs.id
-    siteConfig: {
-      linuxFxVersion: 'DOCKER|${containerRegistry.outputs.loginServer}/${containerRegistryImageName}:${containerRegistryImageVersion}'
-      appCommandLine: ''
-    }
-    appSettingsKeyValuePairs: {
-      WEBSITES_ENABLE_APP_SERVICE_STORAGE: false
-      DOCKER_REGISTRY_SERVER_URL: containerRegistry.outputs.loginServer
-    }
+    location: location
+    serverFarmResourceId: servicePlan.outputs.serverFarmResourceId
+    containerRegistryName: containerRegistryName
+    containerRegistryImageName: 'myimage'
+    containerRegistryImageVersion: 'latest'
   }
 }
